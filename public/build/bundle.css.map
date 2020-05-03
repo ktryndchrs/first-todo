@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "../../App.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n  import client from \"./graphql-client\";\n  import TodoRow from \"./Components/_TodoRow.svelte\";\n  import TodoAdd from \"./Components/_TodoAdd.svelte\";\n  import gql from 'graphql-tag';\n\n  // export let todo = \"\";\n\n  const query = gql`\n    subscription TodosQuery {\n      todo {\n        id\n        name\n        completed\n      }\n    }\n  `\n  \n  const todos = client.subscribe({\n    query\n  })\n  console.log(todos.data);\n  // console.log(todos.data.todos);\n  // console.log(todos.data);\n\n</script>\n\n<style>\n  :global(button:not(:disabled)),\n  :global(label) {\n\t\tcursor: pointer;\n\t}\n</style>\n\n<main>\n  <table style=\"text-align: left;\">\n    <thead>\n      <th>Name</th>\n      <th>Status</th>\n      <th>Delete</th>\n    </thead>\n    <tbody>\n      <td colspan=\"3\">\n          <hr style=\"margin-bottom: .75rem; padding-bottom: .25rem; border: none; border-top: 1px solid lightgray\"/>\n      </td>\n      {#if $todos && $todos.data}\n        {#each $todos.data.todo as todo, index (todo)}\n          <tr  style=\"height: 3.5rem\">\n            <TodoRow todo={todo}/>\n          </tr>\n        {/each}\n      {/if}\n      <tr>\n        <td colspan=\"3\">\n          <hr style=\"margin-top: .75rem; padding-top: .25rem; border: none; border-top: 1px solid lightgray\"/>\n          <TodoAdd />\n        </td>\n      </tr>\n    </tbody>\n  </table>\n</main>"
+  ],
+  "names": [],
+  "mappings": "AA4BU,qBAAqB,AAAC,CACtB,KAAK,AAAE,CAAC,AAChB,MAAM,CAAE,OAAO,AAChB,CAAC"
+}
